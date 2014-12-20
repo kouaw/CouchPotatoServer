@@ -101,7 +101,7 @@ class Base(TorrentProvider):
                         else:
                             tmp = result.find_all('td')[0].find_all('a')[0]['href']
                             tmp = tmp.split('/')[6].replace('.html','.torrent')
-                            url_download = ('http://www.cpasbien.pe/_torrents/%s' % tmp)
+                            url_download = ('http://www.cpasbien.pe/telecharge/%s' % tmp)
 
 
 
@@ -187,7 +187,7 @@ class Base(TorrentProvider):
         ]
 
         try:
-            response = opener.open('http://www.cpasbien.me', tryUrlencode({'url': '/'}))
+            response = opener.open('http://www.cpasbien.pe', tryUrlencode({'url': '/'}))
         except urllib2.URLError as e:
             log.error('Login to cPASbien failed: %s' % e)
             return False
@@ -237,7 +237,7 @@ config = [{
             'tab': 'searcher',
             'list': 'torrent_providers',
             'name': 'cpasbien',
-            'description': 'See <a href="http://www.cpasbien.com/">cPASbien</a>',
+            'description': 'See <a href="http://www.cpasbien.pe/">cPASbien</a>',
             'wizard': True,
             'options': [
                 {
