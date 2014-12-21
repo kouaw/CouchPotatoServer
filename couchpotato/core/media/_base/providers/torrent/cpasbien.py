@@ -66,20 +66,20 @@ class Base(TorrentProvider):
             try:
                 html = BeautifulSoup(data)
 
-                resultdiv = html.find('div', attrs = {'id':'recherche'}).find('table').find('tbody')
+                resultdiv = html.find_all(attrs = {'class' : ["ligne0", "ligne1"]}
 
-                for result in resultdiv.find_all('tr', recursive = False):
+                for result in resultdiv:
 
                     try:
                         
                         new = {}
 
                         #id = result.find_all('td')[2].find_all('a')[0]['href'][1:].replace('torrents/nfo/?id=','')
-                        name = result.find_all('td')[0].find_all('a')[0].text
+                        name = result.find_all('a')[0].text
                         testname=namer_check.correctName(name,movie)
                         if testname==0:
                             continue
-                        detail_url = result.find_all('td')[0].find_all('a')[0]['href']
+                        detail_url = result.find_all('a')[0]['href']
 
                         #on scrapp la page detail
 
@@ -96,12 +96,12 @@ class Base(TorrentProvider):
                         if data_detail:
                             
                             html_detail = BeautifulSoup(data_detail)                                
-                            url_tmp = html_detail.find_all('div', attrs = {'class':'download-torrent'})[0].find_all('a')[0]['href']    
+                            url_tmp = html_detail.find_all('div', attrs = {'id':'infosficher'})[0].find_all('a', attrs = {'class':'telecharger'})[0]['href']    
                             url_download = ('http://www.cpasbien.pe%s' % url_tmp)
                         else:
                             tmp = result.find_all('td')[0].find_all('a')[0]['href']
                             tmp = tmp.split('/')[6].replace('.html','.torrent')
-                            url_download = ('http://www.cpasbien.pe/_torrents/%s' % tmp)
+                            url_download = ('http://www.cpasbien.pe/telecharge/%s' % tmp)
 
 
 
@@ -187,7 +187,7 @@ class Base(TorrentProvider):
         ]
 
         try:
-            response = opener.open('http://www.cpasbien.me', tryUrlencode({'url': '/'}))
+            response = opener.open('http://www.cpasbien.pe', tryUrlencode({'url': '/'}))
         except urllib2.URLError as e:
             log.error('Login to cPASbien failed: %s' % e)
             return False
@@ -237,7 +237,7 @@ config = [{
             'tab': 'searcher',
             'list': 'torrent_providers',
             'name': 'cpasbien',
-            'description': 'See <a href="http://www.cpasbien.com/">cPASbien</a>',
+            'description': 'See <a href="http://www.cpasbien.pe/">cPASbien</a>',
             'wizard': True,
             'options': [
                 {
